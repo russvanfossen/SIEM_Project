@@ -5,5 +5,7 @@
 * Create Custom Log Analytics Workspace
 * Connet LAW to VM
 * Add Microsoft Sentinel to workspace
-
-## Log exporting 
+* Connect to VM
+* Disable firewall
+* Run custom log exporter script
+ 
