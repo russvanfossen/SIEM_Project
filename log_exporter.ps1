@@ -66,7 +66,7 @@ while ($true) {
 
     foreach ($event in $events){
         if ($event.properties[19].Value.Length -ge 5){
-            $timestamp.ToString() = $event.TimeCreated
+            $timestamp = $event.TimeCreated
             $eventId = $event.Id
             $destinationHost = $event.MachineName
             $username = $event.properties[5].Value
@@ -78,7 +78,7 @@ while ($true) {
             $log_contents = Get-Content -Path $LOGFILE_PATH
             if (-Not ($log_contents -match "$($timestamp.ToString())") -or ($log_contents.Length -eq 0)){
                 $ip_result, $ip_lat, $ip_lon, $ip_cnt, $ip_city = check-IP($sourceIp)
-                Write-Host "$($timestamp), $($destinationHost), $($username), $($sourceHost), $($ip_results)"
+                Write-Host $timestamp, $destinationHost, $username, $sourceHost, $ip_result, $ip_lat, $ip_lon, $ip_cnt, $ip_city
                 $jsonData = @{
                     day = $timestamp.Day
                     month = $timestamp.Month
