@@ -57,6 +57,32 @@ Function check-IP($ip){
 }
 
 
+while ($true) {
+    Start-Sleep -Seconds 1
 
+    $events = Get-WinEvent -FilterXml $XMLFilter -ErrorAction SilentlyContinue
+    if ($Error) {
+    }
 
+    foreach ($event in $events){
+        if ($event.properties[19].Value.Length -ge 5){
+            $timestamp = $event.TimeCreated
+            $eventId = $event.Id
+            $destinationHost = $event.MachineName
+            $username = $event.properties[5].Value
+            $sourceHost = $event.properties[11].Value
+            $sourceIp = $event.properties[19].Value
+        
 
+            # Get the current contents of the Log file!
+            $log_contents = Get-Content -Path $LOGFILE_PATH
+            if (-Not ($log_contents -match "$($timestamp)") -or ($log_contents.Length -eq 0)){
+                $ip_results = check-IP($sourceIp)
+                Write-Host "$($timestamp), $($destinationHost), $($username), $($sourceHost), $($ip_results)"
+                "$($timestamp), $($destinationHost), $($username), $($sourceHost), $($ip_results)" | Out-File $LOGFILE_PATH -Append -Encoding utf8
+                
+            }
+        }
+    }
+        
+}
