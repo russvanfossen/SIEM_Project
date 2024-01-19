@@ -53,7 +53,7 @@ Function check-IP($ip){
             "$($ip),|$($lattitude),$($longitude),$($country),$($city)" | Out-File $IP_TABLE_PATH -Append -Encoding utf8
         }
     }
-    return "$($ip),$($lattitude),$($longitude),$($country),$($city)"
+    return $ip,$lattitude,$longitude,$country,$city
 }
 
 
@@ -66,7 +66,7 @@ while ($true) {
 
     foreach ($event in $events){
         if ($event.properties[19].Value.Length -ge 5){
-            $timestamp = $event.TimeCreated
+            $timestamp.ToString() = $event.TimeCreated
             $eventId = $event.Id
             $destinationHost = $event.MachineName
             $username = $event.properties[5].Value
@@ -76,10 +76,29 @@ while ($true) {
 
             # Get the current contents of the Log file!
             $log_contents = Get-Content -Path $LOGFILE_PATH
-            if (-Not ($log_contents -match "$($timestamp)") -or ($log_contents.Length -eq 0)){
-                $ip_results = check-IP($sourceIp)
+            if (-Not ($log_contents -match "$($timestamp.ToString())") -or ($log_contents.Length -eq 0)){
+                $ip_result, $ip_lat, $ip_lon, $ip_cnt, $ip_city = check-IP($sourceIp)
                 Write-Host "$($timestamp), $($destinationHost), $($username), $($sourceHost), $($ip_results)"
-                "$($timestamp), $($destinationHost), $($username), $($sourceHost), $($ip_results)" | Out-File $LOGFILE_PATH -Append -Encoding utf8
+                $jsonData = @{
+                    day = $timestamp.Day
+                    month = $timestamp.Month
+                    year = $timestamp.Year
+                    hour = $timestamp.Hour
+                    minutes = $timestamp.Minute
+                    seconds = $timestamp.Second
+                    timestamp = $timestamp.ToString()
+                    destinationHost = $destinationHost
+                    username = $username
+                    sourceHost = $sourceHost
+                    ip = $ip_result
+                    lat = $ip_lat
+                    lon = $ip_lon
+                    country = $ip_cnt
+                    city = $ip_city
+                }
+                $jsonObject = $jsonData | ConvertTo-Json -Depth 100
+
+                $jsonObject | Out-File $LOGFILE_PATH -Append -Encoding utf8
                 
             }
         }
