@@ -1,6 +1,0 @@
-FAILED_RDP_CL
-| extend split_data = split(RawData, ",")
-| extend CountryTouple = split_data[7]
-| extend Country1 = split(CountryTouple, ":")
-| extend Country = Country1[1]
-| summarize count() by tostring(Country)
