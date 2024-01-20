@@ -14,10 +14,11 @@
   - <img src="https://github.com/russvanfossen/SIEM_Project_new/assets/10410808/69b42f49-9951-4e0a-a7f7-a1f1971b40ba" width="25%"/>
 
 * Run custom log exporter script
- > stupid json didn't work right
+  [log_exporter](log_exporter.ps1)
+ > 💢stupid json didn't work right
  ![image](https://github.com/russvanfossen/SIEM_Project_new/assets/10410808/887c5566-36c0-4631-833f-ac5dc4ad0fa0)
 
-> ok, fixed it. 
+> ok, fixed it. 😌
 
 * Set up some alerts to notify when there are new entries in the log
   - <img src="https://github.com/russvanfossen/SIEM_Project_new/assets/10410808/eeae1aab-e43f-47c2-8707-e5a5a6982630" width="25%"/>
