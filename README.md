@@ -47,4 +47,22 @@ FAILED_RDP_CL
 | extend UserName = split(split_data[2], ":")[1]
 | summarize count() by tostring(UserName)
 ```
+### Final Results
+At least right before the resource group was deleted...
+#### Top 5 user names attempted
+| user | count|
+| --- | --- |
+| administrator | 4698 |
+| de	| 1482 |
+| \\\	| 836 |
+| Administrador	| 829 |
+| usuario |	739 |
+#### Top 5 countries
+|Country|count|
+|---|---|
+|Indonesia|2919|
+|Brazil|3062|
+|Russia|13|
+|Lithuania|6|
+|Vietnam|4|
 
